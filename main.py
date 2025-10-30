@@ -50,6 +50,10 @@ def main():
         display_hint(hint)
         guess = input("Guess a letter: ").lower()
 
+        if len(guess) !=1:
+            print("Invalid input, please guess a letter")
+            continue
+
         if guess in answer:
             for i in range(len(answer)):
                 if answer[i] == guess:
