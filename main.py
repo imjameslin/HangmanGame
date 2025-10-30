@@ -1,7 +1,6 @@
 # Hangman Game
 import random
-
-words = ("apple", "orange", "banana", "coconut", "pineapple")
+from wordslist import words
 
 #dictonary of key:()
 hangman_art = {0: ("   ",
@@ -50,14 +49,34 @@ def main():
         display_hint(hint)
         guess = input("Guess a letter: ").lower()
 
-        if len(guess) !=1:
+        if len(guess) !=1 or not guess.isalpha():
             print("Invalid input, please guess a letter")
             continue
+
+        if guess in guessed_letters:
+            print(f"You've already guessed {guess}")
+
+        guessed_letters.add(guess)
 
         if guess in answer:
             for i in range(len(answer)):
                 if answer[i] == guess:
                     hint[i] = guess
+        
+        else:
+            wrong_guesses += 1
+
+        if "_" not in hint:
+            display_man(wrong_guesses)
+            display_answer(answer)
+            print("YOU WIN!")
+            is_running = False
+
+        elif wrong_guesses >= len(hangman_art) - 1:
+            display_man(wrong_guesses)
+            display_answer(answer)
+            print("You Lose!")
+            is_running = False
 
 if __name__ == "__main__":
     main()
